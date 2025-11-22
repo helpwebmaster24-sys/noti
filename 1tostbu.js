@@ -134,7 +134,7 @@
 
         autoCloseTimer = setTimeout(function() {
             closeAndNextToast();
-        }, 5000);
+        }, 9000);
     }
 
     function closeAndNextToast() {
