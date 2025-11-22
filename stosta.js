@@ -1,0 +1,157 @@
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: transparent;
+        }
+
+        /* 3D-উঁচু রেড সলিড কালার ফ্লোটিং টোস্ট স্টাইল */
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 250px;
+            background: red; /* সলিড লাল কালার */
+            border-radius: 25px; /* রাউন্ড কোণ */
+            padding: 12px;
+            text-align: center;
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.12), /* বড় শ্যাডো উঁচু ইফেক্টের জন্য */
+                0 4px 8px rgba(0, 0, 0, 0.08),  /* মিডিয়াম গভীরতা */
+                0 2px 4px rgba(0, 0, 0, 0.04),  /* ছোট ডিটেল */
+                inset 0 1px 0 rgba(255, 255, 255, 0.8), /* উপরের হাইলাইট 3D-এর জন্য */
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05); /* নিচের শ্যাডো গভীরতা */
+            border: 1px solid #ff5252; /* লাল টোনের বর্ডার */
+            display: none;
+            z-index: 10000;
+            animation: toastSlideIn 0.5s ease-out;
+            overflow: hidden;
+            pointer-events: auto;
+        }
+
+        .toast-content {
+            position: relative;
+        }
+
+        .toast-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent); /* হালকা শাইন */
+            transform: rotate(45deg);
+            animation: shinePulse 2s infinite;
+            border-radius: 25px; /* মিলিয়ে রাউন্ড */
+        }
+
+        .money-icon-toast {
+            font-size: 16px;
+            color: aqua; 
+            margin-bottom: 5px;
+            animation: bounceMoney 1.5s infinite;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* লাল ব্যাকগ্রাউন্ডে অ্যাডজাস্ট */
+        }
+
+        .toast-message {
+            font-size: 12px;
+            color: #000; /* কালো লেখা */
+            font-weight: bold; /* বোল্ড করে পড়া সহজ */
+            line-height: 1.3;
+            background: #ffffff; /* সলিড সাদা ইনার ব্যাকগ্রাউন্ড */
+            padding: 8px;
+            border-radius: 15px; /* ইনার রাউন্ডিং */
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); /* হালকা ইনসেট 3D */
+            margin: 0;
+        }
+
+        @keyframes toastSlideIn {
+            from {
+                transform: translateX(100%) translateY(20px) scale(0.95);
+                opacity: 0;
+                border-radius: 55px;
+            }
+            to {
+                transform: translateX(0) translateY(0) scale(1);
+                opacity: 1;
+                border-radius: 25px;
+            }
+        }
+
+        @keyframes shinePulse {
+            0%, 100% { opacity: 0; transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { opacity: 1; transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        @keyframes bounceMoney {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-3px); }
+            60% { transform: translateY(-2px); }
+        }
+
+        @media (max-width: 480px) {
+            .toast-notification {
+                width: 220px;
+                right: 10px;
+                bottom: 10px;
+                padding: 10px;
+                border-radius: 20px;
+            }
+        }
+    </style>
+    <!-- 3D রেড ব্যাকগ্রাউন্ড সলিড সিম্পল ফ্লোটিং টোস্ট -->
+    <div id="toast-notification" class="toast-notification">
+        <div class="toast-content">
+            <div id="toast-icon" class="money-icon-toast"><b>RECENT WITHDRALL</b></div>
+            <div id="toast-message" class="toast-message"></div>
+        </div>
+    </div>
+
+    <script>
+        // ফেক ডেটা অ্যারে
+        var fakeUsers = ['রাহুল কুমার', 'প্রিয়া সিং', 'অমিত বর্মা', 'সোনালী দাস', 'রাজেশ খান', 'মিতা রায়', 'সুমন আহমেদ', 'রিয়া শর্মা'];
+        var fakeAmounts = [500.00, 1200.50, 750.00, 2000.00, 300.75, 1500.00, 800.25, 950.00];
+        var fakeBanks = ['🌈 SBI অ্যাকাউন্ট', '💎 HDFC ব্যাংক', '🔥 ICICI অ্যাকাউন্ট', '⭐ Axis Bank', '💰 PNB অ্যাকাউন্ট', '✨ BOB ব্যাংক', '🌟 Kotak ব্যাংক'];
+
+        var currentIndex = 0; // সিকোয়েন্স ট্র্যাক
+        var autoCloseTimer; // অটো-ক্লোজ টাইমার
+
+        function generateRandomNotification() {
+            var userName = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
+            var amount = fakeAmounts[Math.floor(Math.random() * fakeAmounts.length)];
+            var bank = fakeBanks[Math.floor(Math.random() * fakeBanks.length)];
+
+            return 'ইউজার ' + userName + ' ' + amount + ' টাকা তুলেছে ' + bank + '-এ।';
+        }
+
+        function showToast() {
+            var message = generateRandomNotification();
+            $('#toast-message').text(message);
+            $('#toast-notification').fadeIn(300);
+
+            // অটো-ক্লোজ ৫ সেকেন্ড পর
+            autoCloseTimer = setTimeout(function() {
+                closeAndNextToast();
+            }, 5000);
+        }
+
+        function closeAndNextToast() {
+            clearTimeout(autoCloseTimer);
+            $('#toast-notification').fadeOut(300, function() {
+                currentIndex++;
+                // ১০টি পর শেষ (infinite চাইলে if সরান)
+                if (currentIndex < 10) {
+                    setTimeout(showToast, 500); // ০.৫ সেকেন্ড ডিলে পরেরটা
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            // প্রথম টোস্ট শুরু
+            setTimeout(showToast, 1000); // ১ সেকেন্ড পর শুরু
+        });
+    </script>
