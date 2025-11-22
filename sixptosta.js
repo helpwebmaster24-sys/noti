@@ -54,7 +54,7 @@
 }
 .toast-close {
     position: absolute;
-    top: 16px;
+    top: 5px;
     right: 16px;
     font-size: 18px;
     color: #fff;
