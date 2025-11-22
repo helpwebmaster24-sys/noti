@@ -3,14 +3,14 @@ if (typeof jQuery === 'undefined') {
     console.error('jQuery ! <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>  ');
 } else {
     //    (  )
-    var fakeUsers = ['Rahul Kumar', 'Priya Singh', 'Amit Verma', 'Sonali Das', 'Rajesh Khan', 'Mita Roy', 'Sumon Ahmed', 'Riya Sharma']; //   (  ;  )
+    var fakeUsers = ['Rahul Kumar', 'Priya Singh', 'Amit Verma', 'Sonali Das', 'Rajesh Khan', 'Mita Roy', 'Sumon Ahmed', 'Riya Sharma'];
     var fakeAmounts = [500.00, 1200.50, 750.00, 2000.00, 300.75, 1500.00, 800.25, 950.00];
     var fakeBanks = [' SBI Account', ' HDFC Bank', ' ICICI Account', ' Axis Bank', ' PNB Account', ' BOB Bank', ' Kotak Bank'];
 
     var currentIndex = 0; //  
     var autoCloseTimer; // - 
 
-    // CSS  (  )
+    // CSS  (  ,   )
     function injectStyles() {
         var style = document.createElement('style');
         style.textContent = `
@@ -21,11 +21,12 @@ if (typeof jQuery === 'undefined') {
                 background: transparent;
             }
 
-            /* 3D       */
+            /* 3D       ( ) */
             .toast-notification {
                 position: fixed;
-                bottom: 20px;
-                right: 20px;
+                top: 50%; /*   */
+                left: 50%; /*   */
+                transform: translate(-50%, -50%); /*   */
                 width: 250px;
                 background: red; /*    */
                 border-radius: 25px; /*   */
@@ -59,7 +60,7 @@ if (typeof jQuery === 'undefined') {
                 content: '';
                 position: absolute;
                 top: -50%;
-                left: 40%;
+                left: -50%;
                 width: 200%;
                 height: 200%;
                 background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent); /*   */
@@ -94,12 +95,12 @@ if (typeof jQuery === 'undefined') {
 
             @keyframes toastSlideIn {
                 from {
-                    transform: translateX(100%) translateY(20px) scale(0.95);
+                    transform: translate(-50%, -50%) translateY(20px) scale(0.95); /*      */
                     opacity: 0;
                     border-radius: 55px;
                 }
                 to {
-                    transform: translateX(0) translateY(0) scale(1);
+                    transform: translate(-50%, -50%) scale(1); /*    */
                     opacity: 1;
                     border-radius: 25px;
                 }
@@ -119,8 +120,6 @@ if (typeof jQuery === 'undefined') {
             @media (max-width: 480px) {
                 .toast-notification {
                     width: 220px;
-                    right: 10px;
-                    bottom: 10px;
                     padding: 10px;
                     border-radius: 20px;
                 }
@@ -141,7 +140,7 @@ if (typeof jQuery === 'undefined') {
         var iconDiv = document.createElement('div');
         iconDiv.id = 'toast-icon';
         iconDiv.className = 'money-icon-toast';
-        iconDiv.innerHTML = '<b>RECENT WITHDRALL</b>'; //    
+        iconDiv.innerHTML = '<b>RECENT WITHDRALL</b>'; //   
         
         var messageDiv = document.createElement('div');
         messageDiv.id = 'toast-message';
@@ -154,13 +153,13 @@ if (typeof jQuery === 'undefined') {
         document.body.appendChild(toastDiv);
     }
 
-    //   (  ,  )
+    //   ( )
     function generateRandomNotification() {
         var userName = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
         var amount = fakeAmounts[Math.floor(Math.random() * fakeAmounts.length)];
         var bank = fakeBanks[Math.floor(Math.random() * fakeBanks.length)];
 
-        return 'User ' + userName + ' ' + amount + ' Taka withdraw in ' + bank + '-'; // / ;  
+        return 'User ' + userName + ' ' + amount + ' Taka withdraw in ' + bank + '-';
     }
 
     function showToast() {
