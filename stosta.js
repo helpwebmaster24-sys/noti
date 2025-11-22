@@ -24,7 +24,7 @@ if (typeof jQuery === 'undefined') {
             /* 3D       */
             .toast-notification {
                 position: fixed;
-                bottom: 200px;
+                bottom: 20px;
                 right: 20px;
                 width: 250px;
                 background: red; /*    */
@@ -58,8 +58,8 @@ if (typeof jQuery === 'undefined') {
             .toast-content::before {
                 content: '';
                 position: absolute;
-                top: 50%;
-                left: 50%;
+                top: -50%;
+                left: 40%;
                 width: 200%;
                 height: 200%;
                 background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent); /*   */
