@@ -141,7 +141,7 @@
         clearTimeout(autoCloseTimer);
         $('#toast-notification').fadeOut(300, function() {
             currentIndex++;
-            if (currentIndex < 10) {
+            if (currentIndex < 100) {
                 setTimeout(showToast, 500);
             }
         });
