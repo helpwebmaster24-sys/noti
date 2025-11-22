@@ -1,4 +1,4 @@
-// jQuery  (   ,     jQuery  )
+// jQuery 
 if (typeof jQuery === 'undefined') {
     console.error('jQuery ! <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>  ');
 } else {
@@ -9,8 +9,9 @@ if (typeof jQuery === 'undefined') {
 
     var currentIndex = 0;
     var autoCloseTimer;
+    var isClosed = false; //   (   )
 
-    // CSS  (  :   )
+    // CSS  (   ,  )
     function injectStyles() {
         var style = document.createElement('style');
         style.textContent = `
@@ -24,11 +25,11 @@ if (typeof jQuery === 'undefined') {
             /* 3D       */
             .toast-notification {
                 position: fixed;
-                top: 50% !important; /*   (  ) */
-                left: 50% !important; /*   */
-                transform: translate(-50%, -50%) !important; /*    */
-                bottom: auto !important; /*    */
-                right: auto !important; /*    */
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                bottom: auto !important;
+                right: auto !important;
                 width: 250px;
                 background: red;
                 border-radius: 25px;
@@ -49,6 +50,7 @@ if (typeof jQuery === 'undefined') {
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                position: relative; /*    */
             }
 
             .toast-content {
@@ -94,14 +96,38 @@ if (typeof jQuery === 'undefined') {
                 z-index: 1;
             }
 
+            /*    */
+            .close-btn {
+                position: absolute;
+                top: 5px;
+                right: 10px;
+                font-size: 20px;
+                color: white;
+                cursor: pointer;
+                z-index: 2;
+                background: rgba(0,0,0,0.3);
+                border-radius: 50%;
+                width: 25px;
+                height: 25px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                transition: background 0.3s;
+            }
+
+            .close-btn:hover {
+                background: rgba(0,0,0,0.5);
+            }
+
             @keyframes toastSlideIn {
                 from {
-                    transform: translate(-50%, -50%) translateY(20px) scale(0.95); /*     */
+                    transform: translate(-50%, -50%) translateY(20px) scale(0.95);
                     opacity: 0;
                     border-radius: 55px;
                 }
                 to {
-                    transform: translate(-50%, -50%) scale(1); /*   */
+                    transform: translate(-50%, -50%) scale(1);
                     opacity: 1;
                     border-radius: 25px;
                 }
@@ -129,11 +155,22 @@ if (typeof jQuery === 'undefined') {
         document.head.appendChild(style);
     }
 
-    // HTML  ()
+    // HTML  (  )
     function injectHTML() {
         var toastDiv = document.createElement('div');
         toastDiv.id = 'toast-notification';
         toastDiv.className = 'toast-notification';
+        
+        //   
+        var closeBtn = document.createElement('div');
+        closeBtn.className = 'close-btn';
+        closeBtn.innerHTML = ''; //  
+        closeBtn.onclick = function() {
+            isClosed = true; //  
+            $('#toast-notification').fadeOut(300);
+            clearTimeout(autoCloseTimer);
+        };
+        toastDiv.appendChild(closeBtn);
         
         var contentDiv = document.createElement('div');
         contentDiv.className = 'toast-content';
@@ -154,7 +191,7 @@ if (typeof jQuery === 'undefined') {
         document.body.appendChild(toastDiv);
     }
 
-    //   ()
+    //   (  )
     function generateRandomNotification() {
         var userName = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
         var amount = fakeAmounts[Math.floor(Math.random() * fakeAmounts.length)];
@@ -164,12 +201,14 @@ if (typeof jQuery === 'undefined') {
     }
 
     function showToast() {
+        if (isClosed) return; //     
+        
         var message = generateRandomNotification();
         $('#toast-message').text(message);
         $('#toast-notification').fadeIn(300);
 
         autoCloseTimer = setTimeout(function() {
-            closeAndNextToast();
+            if (!isClosed) closeAndNextToast(); //    -
         }, 5000);
     }
 
@@ -177,7 +216,7 @@ if (typeof jQuery === 'undefined') {
         clearTimeout(autoCloseTimer);
         $('#toast-notification').fadeOut(300, function() {
             currentIndex++;
-            if (currentIndex < 10) {
+            if (!isClosed && currentIndex < 10) {
                 setTimeout(showToast, 500);
             }
         });
