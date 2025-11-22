@@ -101,7 +101,26 @@
 
     // অডিও লোড (free cash register sound)
     var toastAudio = new Audio('https://indianehub.store/song/bumba.mp3');
+$(document).one('click touchstart', function() {
+    toastAudio.play().catch(function(e) {
+        console.log('আডিও প্লে ব্লক হয়েছে:', e);
+    });
+});
 
+function showToast() {
+    var message = generateRandomNotification();
+    $('#toast-message').text(message);
+    $('#toast-notification').fadeIn(300);
+
+    toastAudio.currentTime = 0;
+    toastAudio.play().catch(function(e) {
+        console.log('আডিও প্লে ব্লক হয়েছে:', e);
+    });
+
+    autoCloseTimer = setTimeout(function() {
+        closeAndNextToast();
+    }, 5000);
+}
     // Toast HTML inject
     var toastHtml = `
 <div id="toast-notification" class="toast-notification">
