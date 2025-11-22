@@ -24,7 +24,7 @@ if (typeof jQuery === 'undefined') {
             /* 3D       */
             .toast-notification {
                 position: fixed;
-                bottom: 20px;
+                bottom: 200px;
                 right: 20px;
                 width: 250px;
                 background: red; /*    */
