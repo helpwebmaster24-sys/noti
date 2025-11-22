@@ -54,8 +54,8 @@
 }
 .toast-close {
     position: absolute;
-    top: 1px;
-    right: 20px;
+    top: 2px;      /* বেশ উপরের দিকে */
+    right: 2px;    /* ডানদিকের কোণে খুব নিকটে */
     font-size: 18px;
     color: #fff;
     background: transparent;
@@ -66,6 +66,7 @@
     font-weight: bold;
     transition: color 0.2s;
 }
+
 .toast-close:hover { color: #f8bbbb; }
 @keyframes toastSlideIn {
     from {
