@@ -54,16 +54,15 @@
 }
 .toast-close {
     position: absolute;
-    top: 2px;      /* একদম উপরের */
-    right: 2px;    /* একদম ডানদিকের কোণে */
-    padding: 4px 8px;
+    top: 0px;
+    right: 0px;
     font-size: 18px;
     color: #fff;
     background: transparent;
     border: none;
     cursor: pointer;
-    z-index: 10;
-    line-height: 1;
+    z-index: 2;
+    line-height: 0.9;
     font-weight: bold;
     transition: color 0.2s;
 }
@@ -99,33 +98,11 @@
         document.head.appendChild(style);
     }
 
-    // অডিও লোড (free cash register sound)
-    var toastAudio = new Audio('https://indianehub.store/song/bumba.mp3');
-$(document).one('click touchstart', function() {
-    toastAudio.play().catch(function(e) {
-        console.log('আডিও প্লে ব্লক হয়েছে:', e);
-    });
-});
-
-function showToast() {
-    var message = generateRandomNotification();
-    $('#toast-message').text(message);
-    $('#toast-notification').fadeIn(300);
-
-    toastAudio.currentTime = 0;
-    toastAudio.play().catch(function(e) {
-        console.log('আডিও প্লে ব্লক হয়েছে:', e);
-    });
-
-    autoCloseTimer = setTimeout(function() {
-        closeAndNextToast();
-    }, 5000);
-}
     // Toast HTML inject
     var toastHtml = `
 <div id="toast-notification" class="toast-notification">
     <div class="toast-content">
-        <button class="toast-close" title="[translate:বন্ধ করুন]">&times;</button>
+        <button class="toast-close" title="বন্ধ করুন">&times;</button>
         <div id="toast-icon" class="money-icon-toast"><b>RECENT WITHDRALL</b></div>
         <div id="toast-message" class="toast-message"></div>
     </div>
@@ -136,7 +113,7 @@ function showToast() {
         document.body.appendChild(div.firstChild);
     }
 
-       var fakeUsers = ['রাহুল কুমার', 'প্রিয়া সিং', 'অমিত বর্মা', 'সোনালী দাস', 'রাজেশ খান', 'মিতা রায়', 'সুমন আহমেদ', 'রিয়া শর্মা'];
+    var fakeUsers = ['রাহুল কুমার', 'প্রিয়া সিং', 'অমিত বর্মা', 'সোনালী দাস', 'রাজেশ খান', 'মিতা রায়', 'সুমন আহমেদ', 'রিয়া শর্মা'];
     var fakeAmounts = [500.00, 1200.50, 750.00, 2000.00, 300.75, 1500.00, 800.25, 950.00];
     var fakeBanks = ['🌈 SBI অ্যাকাউন্ট', '💎 HDFC ব্যাংক', '🔥 ICICI অ্যাকাউন্ট', '⭐ Axis Bank', '💰 PNB অ্যাকাউন্ট', '✨ BOB ব্যাংক', '🌟 Kotak ব্যাংক'];
 
@@ -147,17 +124,13 @@ function showToast() {
         var userName = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
         var amount = fakeAmounts[Math.floor(Math.random() * fakeAmounts.length)];
         var bank = fakeBanks[Math.floor(Math.random() * fakeBanks.length)];
-        return [translate:'ইউজার '] + userName + ' ' + amount + [translate:' টাকা তুলেছে '] + bank + '-এ।';
+        return 'ইউজার ' + userName + ' ' + amount + ' টাকা তুলেছে ' + bank + '-এ।';
     }
 
     function showToast() {
         var message = generateRandomNotification();
         $('#toast-message').text(message);
         $('#toast-notification').fadeIn(300);
-
-        // প্লে সাউন্ড
-        toastAudio.currentTime = 0;
-        toastAudio.play();
 
         autoCloseTimer = setTimeout(function() {
             closeAndNextToast();
@@ -174,13 +147,13 @@ function showToast() {
         });
     }
 
-    // ক্লোজ বাটন ইভেন্ট
+    // Cross-BTN Event
     $(document).on('click', '.toast-close', function() {
         clearTimeout(autoCloseTimer);
         $('#toast-notification').fadeOut(200);
     });
 
-    // পাবলিক সিলেক্টেবল স্টার্ট ফাংশন
+    // Public - restart method if needed
     global.ToastNotification = {
         start: function() {
             currentIndex = 0;
@@ -189,7 +162,7 @@ function showToast() {
     };
 
     $(document).ready(function() {
-        // স্বয়ংক্রিয় শুরু
+        // শুরু স্বয়ংক্রিয়ভাবে
         global.ToastNotification.start();
     });
 })(window, jQuery);
