@@ -54,16 +54,15 @@
 }
 .toast-close {
     position: absolute;
-    top: 0;
-    right: 0;
-    padding: 4px 8px; /* ক্লিক করার জন্য পর্যাপ্ত স্পেস রাখবে */
+    top: 2px;      /* বেশ উপরের দিকে */
+    right: 2px;    /* ডানদিকের কোণে খুব নিকটে */
     font-size: 18px;
     color: #fff;
     background: transparent;
     border: none;
     cursor: pointer;
-    z-index: 10; /* নিশ্চিত করা উপরে থাকবে */
-    line-height: 1;
+    z-index: 2;
+    line-height: 0.9;
     font-weight: bold;
     transition: color 0.2s;
 }
