@@ -3,7 +3,7 @@ if (typeof jQuery === 'undefined') {
     console.error('jQuery ! <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>  ');
 } else {
     //    (  )
-    var fakeUsers = ['Rahul Kumar', 'Priya Singh', 'Amit Verma', 'Sonali Das', 'Rajesh Khan', 'Mita Roy', 'Sumon Ahmed', 'Riya Sharma'];
+    var fakeUsers = ['Bumba','Rahul Kumar', 'Priya Singh', 'Amit Verma', 'Sonali Das', 'Rajesh Khan', 'Mita Roy', 'Sumon Ahmed', 'Riya Sharma'];
     var fakeAmounts = [500.00, 1200.50, 750.00, 2000.00, 300.75, 1500.00, 800.25, 950.00];
     var fakeBanks = [' SBI Account', ' HDFC Bank', ' ICICI Account', ' Axis Bank', ' PNB Account', ' BOB Bank', ' Kotak Bank'];
 
