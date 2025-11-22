@@ -103,7 +103,7 @@
 <div id="toast-notification" class="toast-notification">
     <div class="toast-content">
         <button class="toast-close" title="বন্ধ করুন">&times;</button>
-        <div id="toast-icon" class="money-icon-toast"><b>RECENT WITHDRALL</b></div>
+        <div id="toast-icon" class="money-icon-toast"><b>RECENT CASH WITHDRAWAL</b></div>
         <div id="toast-message" class="toast-message"></div>
     </div>
 </div>`;
